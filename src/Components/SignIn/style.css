@@ -16,12 +16,12 @@ body {
 }
 
 .card {
-  position: relative; /* Required for positioning the wave */
+  position: relative;
   background-color: white;
-  height: 85vh; /* Occupying 85% of the viewport height */
-  width: 75vw; /* Occupying 85% of the viewport width */
-  border-radius: 30px; /* Adding rounded corners */
-  overflow: hidden; /* Hide any content that overflows */
+  height: 85vh;
+  width: 75vw;
+  border-radius: 30px;
+  overflow: hidden;
   align-content: center;
 }
 
@@ -30,8 +30,8 @@ body {
   bottom: 0;
   left: 0;
   width: 45%;
-  height: 100%; /* Making the wave taller than the card */
-  border-bottom-left-radius: 30px; /* Ensuring rounded corner for the wave */
+  height: 100%;
+  border-bottom-left-radius: 30px;
   bottom: -5%;
 }
 
@@ -248,9 +248,7 @@ a:hover {
   margin-bottom: 4px;
 }
 
-/* Media query to adjust styles for smaller screens */
 @media screen and (max-width: 900px) {
-  /* Adjust the layout for smaller screens */
   .container {
     grid-template-columns: 1fr;
   }
