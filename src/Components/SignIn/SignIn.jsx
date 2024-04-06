@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import Dashboard from "../Dashbard/Dashboard"; // Import the Dashboard component
 import "./style.css";
 import bg from "./bg.svg";
 import wave from "./wave.png";
@@ -15,10 +14,12 @@ const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [formTitle, setFormTitle] = useState("Login"); // Initially set the form title to "Login"
 
   const handleNewUserClick = () => {
     setShowNewUser(!showNewUser);
+    // Change the form title when switching between login and sign up modes
+    setFormTitle(showNewUser ? "Login" : "Sign Up");
   };
 
   const handleSignUp = async (e) => {
@@ -39,6 +40,8 @@ const SignIn = () => {
       setConfirmPassword("");
       // Show the login form
       setShowNewUser(false);
+      // Change the form title back to "Login"
+      setFormTitle("Login");
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +55,9 @@ const SignIn = () => {
         password,
       });
       alert(response.data.message);
-      setIsLoggedIn(true); // Set isLoggedIn to true upon successful login
+      // Clear input fields after successful login
+      setUsername("");
+      setPassword("");
     } catch (error) {
       if (error.response.status === 401 || error.response.status === 404) {
         alert("Invalid username or password"); // Display alert for invalid details
@@ -63,81 +68,75 @@ const SignIn = () => {
   };
 
   return (
-    <div>
-      {/* Conditionally render the Dashboard component if user is logged in */}
-      {isLoggedIn ? (
-        <Dashboard />
-      ) : (
-        <div className="card">
-          <div>
-            <img className="wave" src={wave} alt="wave" />
-            <div className="container">
-              <div className="img">
-                <img src={bg} alt="background" />
+    <div className="card">
+      <div>
+        <img className="wave" src={wave} alt="wave" />
+        <div className="container">
+          <div className="img">
+            <img src={bg} alt="background" />
+          </div>
+          <div className="login-content">
+            <form>
+              <img src={avtar} alt="avatar" />
+              <h2 className="title">{formTitle}</h2>{" "}
+              {/* Dynamically render the form title */}
+              <div className="input-div one">
+                <div className="i">
+                  <FontAwesomeIcon icon={faUser} />
+                </div>
+                <div className="div">
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="login-content">
-                <form>
-                  <img src={avtar} alt="avatar" />
-                  <h2 className="title">Login</h2>
-                  <div className="input-div one">
-                    <div className="i">
-                      <FontAwesomeIcon icon={faUser} />
-                    </div>
-                    <div className="div">
-                      <input
-                        type="text"
-                        className="input"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="input-div pass">
-                    <div className="i">
-                      <FontAwesomeIcon icon={faLock} />
-                    </div>
-                    <div className="div">
-                      <input
-                        type="password"
-                        className="input"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  {showNewUser && (
-                    <div className="input-div pass">
-                      <div className="i">
-                        <FontAwesomeIcon icon={faLock} />
-                      </div>
-                      <div className="div">
-                        <input
-                          type="password"
-                          className="input"
-                          placeholder="Confirm Password"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  <a href="#" onClick={handleNewUserClick}>
-                    {showNewUser ? "Already User?" : "New User?"}
-                  </a>
-                  <button
-                    className="btn"
-                    onClick={showNewUser ? handleSignUp : handleSignIn}
-                  >
-                    {showNewUser ? "Register" : "Login"}
-                  </button>
-                </form>
+              <div className="input-div pass">
+                <div className="i">
+                  <FontAwesomeIcon icon={faLock} />
+                </div>
+                <div className="div">
+                  <input
+                    type="password"
+                    className="input"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
+              {showNewUser && (
+                <div className="input-div pass">
+                  <div className="i">
+                    <FontAwesomeIcon icon={faLock} />
+                  </div>
+                  <div className="div">
+                    <input
+                      type="password"
+                      className="input"
+                      placeholder="Confirm Password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+              <a href="#" onClick={handleNewUserClick}>
+                {showNewUser ? "Already User?" : "New User?"}
+              </a>
+              <button
+                className="btn"
+                onClick={showNewUser ? handleSignUp : handleSignIn}
+              >
+                {showNewUser ? "Sign Up" : "Login"}
+              </button>
+            </form>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
